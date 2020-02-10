@@ -1,2 +1,2 @@
 class Connection:
-    db_path = "/c/Users/blagg/workspace/python/library-management/libraryproject/db.sqlite3"
+    db_path = "/Users/blagg/workspace/python/library-management/libraryproject/db.sqlite3"

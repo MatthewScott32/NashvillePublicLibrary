@@ -1,8 +1,10 @@
 import sqlite3
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from libraryapp.models import Book
 from ..connection import Connection
+from libraryapp.models import model_factory
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 @login_required
 def book_list(request):
@@ -17,7 +19,7 @@ def book_list(request):
                 b.title,
                 b.isbn,
                 b.author,
-                b.year_published,
+                b.yearpublished,
                 b.librarian_id,
                 b.location_id
             from libraryapp_book b
@@ -32,7 +34,7 @@ def book_list(request):
                 book.title = row['title']
                 book.isbn = row['isbn']
                 book.author = row['author']
-                book.year_published = row['year_published']
+                book.yearpublished = row['yearpublished']
                 book.librarian_id = row['librarian_id']
                 book.location_id = row['location_id']
 
@@ -45,22 +47,22 @@ def book_list(request):
 
         return render(request, template, context)
         
-        elif request.method == 'POST':
-    form_data = request.POST
+    elif request.method == 'POST':
+        form_data = request.POST
 
-    with sqlite3.connect(Connection.db_path) as conn:
-        db_cursor = conn.cursor()
+        with sqlite3.connect(Connection.db_path) as conn:
+            db_cursor = conn.cursor()
 
-        db_cursor.execute("""
-        INSERT INTO libraryapp_book
-        (
-            title, author, isbn,
-            year_published, location_id, librarian_id
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (form_data['title'], form_data['author'],
-            form_data['isbn'], form_data['year_published'],
-            request.user.librarian.id, form_data["location"]))
+            db_cursor.execute("""
+            INSERT INTO libraryapp_book
+            (
+                title, author, isbn,
+                year_published, location_id, librarian_id
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (form_data['title'], form_data['author'],
+                form_data['isbn'], form_data['year_published'],
+                request.user.librarian.id, form_data["location"]))
 
-    return redirect(reverse('libraryapp:books'))
+        return redirect(reverse('libraryapp:books'))

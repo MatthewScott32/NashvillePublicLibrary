@@ -35,8 +35,8 @@ def library_details(request, library_id):
 
         return render(request, template, context)
 
-        if request.method == 'POST':
-    form_data = request.POST
+    if request.method == 'POST':
+        form_data = request.POST
 
     # Check if this POST is for deleting a book
     #

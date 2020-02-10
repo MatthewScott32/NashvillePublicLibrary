@@ -2,9 +2,8 @@ import sqlite3
 from django.shortcuts import render
 from libraryapp.models import Librarian
 from ..connection import Connection
-from django.contrib.auth.decorators import login_required
 
-@login_required
+#@login_required   
 def librarian_list(request):
     with sqlite3.connect(Connection.db_path) as conn:
         conn.row_factory = sqlite3.Row
@@ -43,21 +42,3 @@ def librarian_list(request):
     }
 
     return render(request, template_name, context)
-
-     elif request.method == 'POST':
-    form_data = request.POST
-
-    with sqlite3.connect(Connection.db_path) as conn:
-        db_cursor = conn.cursor()
-
-        db_cursor.execute("""
-        INSERT INTO libraryapp_librarian
-        (
-             location_id, user_id
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (form_data['location'], form_data['user'],
-            request.user.librarian.id, form_data["location"]))
-
-    return redirect(reverse('libraryapp:librarian'))
