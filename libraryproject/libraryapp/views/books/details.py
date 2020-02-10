@@ -2,8 +2,7 @@ import sqlite3
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from libraryapp.models import Book, Library
-from libraryapp.models import model_factory
+from libraryapp.models import Book, Library, model_factory
 from ..connection import Connection
 
 
@@ -18,7 +17,7 @@ def get_book(book_id):
             b.title,
             b.isbn,
             b.author,
-            b.year_published,
+            b.yearpublished,
             b.librarian_id,
             b.location_id
         FROM libraryapp_book b
@@ -50,13 +49,13 @@ def book_details(request, book_id):
                 SET title = ?,
                     author = ?,
                     isbn = ?,
-                    year_published = ?,
+                    yearpublished = ?,
                     location_id = ?
                 WHERE id = ?
                 """,
                 (
                     form_data['title'], form_data['author'],
-                    form_data['isbn'], form_data['year_published'],
+                    form_data['isbn'], form_data['yearpublished'],
                     form_data["location"], book_id,
                 ))
 
