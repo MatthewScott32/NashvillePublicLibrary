@@ -1,32 +1,43 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-    <title>Bangazon</title>
-  </head>
-  <body>
-    <h1>Inventory Book</h1>
+    <title>Library</title>
+</head>
 
+<body>
+    <h1>Library</h1>
 
-    <form action="{% url 'libraryapp:books' %}" method="post">
-      {% csrf_token %}
-      <fieldset>
-      <fieldset>
-          <label for="location">Library: </label>
-      </fieldset>
-          <select id="location" type="text" name="location">
+    {% if library.id is not None %}
+        <form action="{% url 'libraryapp:library' library.id %}" method="post">
+    {% else %}
+        <form action="{% url 'libraryapp:librarys' %}" method="post">
+    {% endif %}
+        {% csrf_token %}
+        <fieldset>
+            <label for="title">Title: </label>
+            <input id="title" type="text" name="title" value="{{ library.title }}">
+        </fieldset>
+        <fieldset>
+            <label for="location">Address: </label>
+            <select id="location" type="text" name="location">
                 {% for library in all_libraries %}
-                    <option value="{{ library.id }}">{{ library.title }}</option>
+                <option {% if library.id == library.location_id %}selected{% endif %} value="{{ library.id }}">
+                    {{ library.title }}</option>
                 {% endfor %}
-          </select>
-      </fieldset>
-      <fieldset>
-          <label for="address">Address: </label>
-          <input id="address" type="text" name="address">
-      </fieldset>
+            </select>
+        </fieldset>
 
-      <input type="submit" value="Add Library" />
+        {% if library.id is not None %}
+            <input type="hidden" name="actual_method" value="PUT">
+            <input type="submit" value="Update" />
+        {% else %}
+            <input type="submit" value="Create" />
+        {% endif %}
+
     </form>
-  </body>
+</body>
+
 </html>
