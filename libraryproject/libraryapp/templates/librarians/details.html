@@ -8,5 +8,10 @@
   <body>
     <h1>{{ librarian.location }}</h1>
     <h2>By {{ librarian.user }}</h2>
+    <form action="{% url 'libraryapp:librarian' librarian.id %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="actual_method" value="DELETE">
+    <button>Delete</button>
+</form>
   </body>
 </html>
