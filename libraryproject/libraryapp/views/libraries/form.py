@@ -31,3 +31,17 @@ def library_form(request):
         }
 
         return render(request, template, context)
+
+@login_required
+def library_edit_form(request, library_id):
+
+    if request.method == 'GET':
+        libraries = get_libraries()
+
+        template = 'library/form.html'
+        context = {
+            'library': library,
+            'all_libraries': libraries
+        }
+
+        return render(request, template, context)

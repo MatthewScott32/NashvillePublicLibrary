@@ -1,17 +1,32 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Librarian</title>
-  </head>
-  <body>
-    <h1>{{ librarian.location }}</h1>
-    <h2>By {{ librarian.user }}</h2>
-    <form action="{% url 'libraryapp:librarian' librarian.id %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="actual_method" value="DELETE">
-    <button>Delete</button>
-</form>
-  </body>
+</head>
+
+<body>
+
+    <section id="librarian-details">
+        <h1>{{ librarian.location }}</h1>
+        <h2>{{ librarian.user }}</h2>
+    </section>
+
+    <section id="librarian-actions" style="display:flex;">
+        <form action="{% url 'libraryapp:librarian' librarian.id %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="actual_method" value="DELETE">
+            <button>Delete</button>
+        </form>
+
+        <form action="{% url 'libraryapp:librarian_edit_form' librarian.id %}" method="GET">
+            {% csrf_token %}
+            <button>Edit</button>
+        </form>
+    </section>
+
+</body>
+
 </html>

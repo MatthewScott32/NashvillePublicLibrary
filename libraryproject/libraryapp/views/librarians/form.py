@@ -32,3 +32,18 @@ def librarian_form(request):
         }
 
         return render(request, template, context)
+
+@login_required
+def librarian_edit_form(request, librarian_id):
+
+    if request.method == 'GET':
+        librarian = get_librarians(librarian_id)
+        libraries = get_libraries()
+
+        template = 'librarian/form.html'
+        context = {
+            'librarian': librarian,
+            'all_libraries': libraries
+        }
+
+        return render(request, template, context)

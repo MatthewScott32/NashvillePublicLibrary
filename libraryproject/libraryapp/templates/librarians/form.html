@@ -1,27 +1,43 @@
-{% load static %}
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
-    <title>Bangazon</title>
-  </head>
-  <body>
-    <h1>Librarians</h1>
+    <title>Librarian</title>
+</head>
 
+<body>
+    <h1>Librarian</h1>
 
-    <form action="{% url 'libraryapp:librarians' %}" method="post">
-      {% csrf_token %}
-      <fieldset>
-          <label for="location">Library: </label>
-          <select id="location" type="text" name="location">
+    {% if librarian.id is not None %}
+        <form action="{% url 'libraryapp:librarian' librarian.id %}" method="post">
+    {% else %}
+        <form action="{% url 'libraryapp:librarians' %}" method="post">
+    {% endif %}
+        {% csrf_token %}
+        <fieldset>
+            <label for="location">Library: </label>
+            <select id="location" type="text" name="location">
                 {% for library in all_libraries %}
-                    <option value="{{ library.id }}">{{ library.title }}</option>
+                <option {% if library.id == librarian.location_id %}selected{% endif %} value="{{ library.id }}">
+                    {{ library.title }}</option>
                 {% endfor %}
-          </select>
-          <label for="librarian">Librarian: </label>
-          <input id="librarian" type="text" name="librarian">
-      </fieldset>
-      <input type="submit" value="Add Librarian" />
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="user">User: </label>
+            <input id="user" type="text" name="user" value="{{ librarian.user }}">
+        </fieldset>
+
+        {% if librarian.id is not None %}
+            <input type="hidden" name="actual_method" value="PUT">
+            <input type="submit" value="Update" />
+        {% else %}
+            <input type="submit" value="Create" />
+        {% endif %}
+
     </form>
-  </body>
+</body>
+
 </html>
