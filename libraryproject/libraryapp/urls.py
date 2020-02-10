@@ -1,13 +1,17 @@
-from django.urls import path
+from django.urls import include, path
 from .views import *
+
 
 app_name = "libraryapp"
 
 urlpatterns = [
-    path('', book_list, name='home'),
+    path('', home, name='home'),
     path('books/', book_list, name='books'),
     path('librarians/', librarian_list, name='librarians'),
     path('library/', library_list, name='libraries'),
-    path('', home, name='home'),
-    path('books/', book_list, name='books'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('logout/', logout_user, name='logout'),
+    path('book/form', book_form, name='book_form'),
+    path('librarian/form', librarian_form, name='librarian_form'),
+    path('library/form', library_form, name='library_form'),
 ]

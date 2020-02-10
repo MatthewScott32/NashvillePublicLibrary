@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bangazon</title>
+  </head>
+  <body>
+    <h1>Librarians</h1>
+
+
+    <form action="{% url 'libraryapp:librarians' %}" method="post">
+      {% csrf_token %}
+      <fieldset>
+          <label for="location">Library: </label>
+          <select id="location" type="text" name="location">
+                {% for library in all_libraries %}
+                    <option value="{{ library.id }}">{{ library.title }}</option>
+                {% endfor %}
+          </select>
+          <label for="librarian">Librarian: </label>
+          <input id="librarian" type="text" name="librarian">
+      </fieldset>
+      <input type="submit" value="Add Librarian" />
+    </form>
+  </body>
+</html>
