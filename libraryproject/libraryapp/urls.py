@@ -1,5 +1,6 @@
 from django.urls import include, path
 from .views import *
+from django.urls import path
 
 
 app_name = "libraryapp"
@@ -14,4 +15,7 @@ urlpatterns = [
     path('book/form', book_form, name='book_form'),
     path('librarian/form', librarian_form, name='librarian_form'),
     path('library/form', library_form, name='library_form'),
+    path('books/<int:book_id>/', book_details, name='book'),
+    path('librarian/<int:librarian_id>/', librarian_details, name='librarian'),
+    path('library/<int:library_id>/', library_details, name='library'),
 ]
